@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "Contact";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+<section>
+    <div id="fun-chat-body">
+        <form id="fun-chat-form">
+            <input id="fun-chat-input" type="text" style="position: absolute; display: none" />
+        </form>
+    </div>
+</section>
+
+@section scripts{
+
+    <script src="~/Scripts/jquery.signalR-2.4.1.js"></script>
+    <script src="~/Signalr/hubs"></script>
+    <script>
+
+        var chatHub = $.connection.chatHub;
+
+        var funChat = $("#fun-chat-body");
+
+        var funChatForm = $("#fun-chat-form");
+
+        var funChatInput = $("#fun-chat-input");
+
+
+        funChat.click(function(event) {
+            funChatInput.show().offset({ left: event.clientX, top: event.clientY }).focus();
+        });
+
+        funChatForm.submit(function() {
+
+            var message = funChatInput.val();
+            var position = funChatInput.offset();
+            chatHub.server.sendMessageToFun(message, position.left, position.top);
+            funChatInput.val("").hide();
+
+            return false;
+        });
+
+        chatHub.client.receiveNewMessage = function(msg, left, top) {
+            var newmsg = $('<span>').addClass('fun-chat-message').text(msg).css({ position: "absolute" })
+                .offset({ left: left, top: top });
+
+            funChat.append(newmsg);
+        }
+
+
+
+        //chatHub.client.receiveNewMessage = function(msg, left, top) {
+        //    var newMessage = $("<span>")
+        //        .addClass("fun-chat-message").text(msg).css(position: 'absolute').
+        //        offset({ left: left, top: top });
+
+        //    funChat.append(newMessage);
+        //}
+        $.connection.hub.start().done(function() {
+            console.log("Connection Created Successfuly!");
+        });
+
+    </script>
+}

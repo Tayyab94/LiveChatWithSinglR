@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.572
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationWithSignalR", "AuthenticationWithSignalR\AuthenticationWithSignalR.csproj", "{65837BB9-550A-4F83-BA6C-258F9A749AFB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{65837BB9-550A-4F83-BA6C-258F9A749AFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65837BB9-550A-4F83-BA6C-258F9A749AFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65837BB9-550A-4F83-BA6C-258F9A749AFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65837BB9-550A-4F83-BA6C-258F9A749AFB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {580E67F1-700D-4F83-9289-93B5EC8D3000}
+	EndGlobalSection
+EndGlobal

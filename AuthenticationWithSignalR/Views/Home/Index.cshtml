@@ -1,0 +1,81 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div id="usernameForm">
+    <br />
+
+    <form>
+        <div class="form-group">
+            <label for="username">Enter your Username</label>
+            <input type="text" class="form-control" id="username" placeholder="Username">
+        </div>
+        <button type="button" class="btn btn-primary" id="startChatBtn">Start Chat</button>
+    </form>
+</div>
+
+<br />
+
+<div class="messaging" id="chatWindow">
+    <div class="inbox_msg">
+        <div class="mesgs">
+            <div class="msg_history" id="messageList">
+
+            </div>
+            <div class="type_msg">
+                <div class="input_msg_write">
+                    <input type="text" class="write_msg" id="sendMessageText" placeholder="Type a message" />
+                    <button class="msg_send_btn" id="sendMessageBtn" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/Scripts/jquery.signalR-2.4.1.js"></script>
+    <script src="~/Signalr/hubs"></script>
+    <script>
+
+        var chatHub = $.connection.chatHub;
+
+        console.log(chatHub);
+        var username = '';
+        $('#chatWindow').hide();
+
+        $('#startChatBtn').click(function () {
+            username = $('#username').val();
+            $('#chatWindow').show();
+            $('#usernameForm').hide();
+        });
+
+        $('#sendMessageBtn').click(function () {
+
+            chatHub.server.newMessage(username, $("#sendMessageText").val());
+            makeOutgoingMessage($('#sendMessageText').val());
+            $('#sendMessageText').val('');
+        })
+
+        function makeOutgoingMessage(message) {
+            var newMsg = $('<div class="outgoing_msg"><div class="sent_msg"><p class="msg_body"></p><span class="msg_sub_text"></span></div></div>');
+            newMsg.find('.msg_body').text(message);
+            newMsg.find('.msg_sub_text').text("Sent by " + username);
+            $('#messageList').append(newMsg);
+        }
+
+        function makeIncomingMessage(message, sender,date) {
+            var newMsg = $('<div class="incoming_msg"><div class="received_msg"><div class="received_withd_msg"><p class="msg_body"></p><span class="msg_sub_text"></span></div></div></div>');
+            newMsg.find('.msg_body').text(message);
+            newMsg.find('.msg_sub_text').text("Sent by " + sender);
+            $('#messageList').append(newMsg);
+        }
+
+        chatHub.client.sentMessage = function(userna,msg,date) {
+            makeIncomingMessage(userna, msg, date);
+        }
+
+        $.connection.hub.start().done(function() {
+            console.log("Conneced To a Hub");
+        })
+    </script>
+}
